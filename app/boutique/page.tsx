@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/home/header";
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {X,Filter,LayoutGrid,Plus,Minus,Check,} from "lucide-react";
 import BuyingOptions from "@/components/BuyingOptions";
+import { Product } from "@/types/ApiReponse/ProduitsResponse";
+import { getAllProductsValides } from "@/api/services/authService";
 
 interface WarrantyItem {
   id: string;
@@ -254,10 +256,30 @@ const Products = [
   }
 ];
 
-
 export default function Page() {
-
+  const [product, setProduct] = useState<Product[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [limit] = useState(10);
+
+  // Tous les produits valides (non expirés)
+  const fetchData = async (page: number) => {
+    try {
+      const res = await getAllProductsValides(page, limit);
+      if (res.data) {
+        setProduct(res.data.data);
+        setTotalItems(res.data.total);
+        setCurrentPage(res.data.page);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
 
   return (
     <>
@@ -297,14 +319,14 @@ export default function Page() {
           {/* Produits */}
           <div className="lg:col-span-3">
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Products.map((product) => (
+              {product.map((product) => (
                 <div key={product.id} className="flex flex-col gap-2 cursor-pointer">
                   <Link href={`/product/${product.id}`} passHref>
                     <div className="relative w-full bg-muted rounded-md aspect-video mb-4 overflow-hidden">
                       <div className="absolute top-0 left-0 p-2 text-white bg-orange-400 rounded-tl-md z-10">
                         <p className="italic text-xs">20 %</p>
                       </div>
-                      <Image src={product.imageUrl} alt={product.name} className="object-cover rounded-md" fill  />
+                      <Image src={product.imageUrl || "/astronaut-grey-scale.svg"} alt={product.name} className="object-cover rounded-md" fill  />
                     </div>
                     <h3 className="text-sm font-bold">{product.name}</h3>
                     <div className="flex items-center space-x-3 mt-2">

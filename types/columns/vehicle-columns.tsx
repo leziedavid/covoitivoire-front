@@ -28,14 +28,20 @@ export const columns: ColumnDef<Vehicle>[] = [
 
             return (
                 <div className="flex items-center">
-                    <div className="w-10 h-10 overflow-hidden rounded">
-                        <Image src={imageUrl} alt="Image" width={80} height={80} className="w-full h-full object-cover"/>
+                    <div className="relative w-15 h-15 overflow-hidden rounded">
+                        <Image
+                            src={imageUrl}
+                            alt="Image"
+                            fill
+                            sizes="80px"
+                            style={{ objectFit: "cover" }}
+                            className="rounded"
+                        />
                     </div>
                 </div>
             );
         },
     },
-
 
     {
         accessorKey: "brand",

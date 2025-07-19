@@ -143,7 +143,6 @@ export const isUserAuthenticated = async (): Promise<boolean> => {
 }
 
 
-
 export const logout = (): void => {
     // Fonction de déconnexion qui supprime les tokens et redirige vers login
     if (typeof window !== 'undefined') {
@@ -151,4 +150,49 @@ export const logout = (): void => {
         localStorage.removeItem('refresh_token') // Supprime refresh_token
         window.location.href = '/auth/login' // Redirige vers la page de connexion
     }
+}
+
+
+/**
+ * Vérifie si l'utilisateur est encore authentifié via access_token ou refresh_token.
+ * @returns boolean : true si un token valide est présent ou récupéré, false sinon.
+ */
+export const isSessionStillValid = async (): Promise<boolean> => {
+    let accessToken = getTokenFromLocalStorage()
+
+    if (accessToken && isTokenValid(accessToken)) {
+        // access_token encore valide
+        return true
+    }
+
+    // access_token invalide, on tente avec le refresh_token
+    const refreshToken = localStorage.getItem('refresh_token')
+    if (!refreshToken) {
+        // Aucun refresh_token présent
+        return false
+    }
+
+    // Vérification de la validité du refresh_token lui-même
+    try {
+        const decodedRefresh = jwtDecode<JwtPayload>(refreshToken)
+        const currentTime = Math.floor(Date.now() / 1000)
+
+        if (!decodedRefresh.exp || decodedRefresh.exp <= currentTime) {
+            // refresh_token expiré
+            return false
+        }
+    } catch {
+        // Erreur lors du décodage du refresh_token
+        return false
+    }
+
+    // Le refresh_token est valide, on tente de récupérer un nouveau access_token
+    const newAccessToken = await tryRefreshAccessToken()
+
+    if (!newAccessToken || !isTokenValid(newAccessToken)) {
+        // Impossible de rafraîchir ou nouveau token invalide
+        return false
+    }
+
+    return true
 }

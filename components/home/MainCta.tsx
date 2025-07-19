@@ -16,6 +16,8 @@ import { toast } from "sonner"
 import { Plus, Minus } from "lucide-react"
 import SelectServices from "../select/SelectServices"
 import UberMap from "./UberMap"
+import { useRouter } from "next/navigation"
+
 
 const rideSchema = z.object({
     pickup: z.string().min(1),
@@ -60,6 +62,8 @@ export function MainCta() {
     const [showPackageDetails, setShowPackageDetails] = useState(false)
     const [packages, setPackages] = useState([{ name: "", description: "" }])
     const [serviceId, setServiceId] = useState("livraison")
+    const router = useRouter()
+
 
     const isAuthenticated = true // À remplacer par ta logique réelle
 
@@ -80,8 +84,13 @@ export function MainCta() {
             return
         }
 
-        console.log("Course validée:", result.data)
-        toast.success("Course enregistrée !")
+        // 1. Sauvegarder dans le localStorage
+        localStorage.setItem("rideData", JSON.stringify(result.data))
+        // 2. Message d’information
+        toast.success("Recherche d’un véhicule disponible en cours...")
+        // 3. Redirection
+        router.push("/trajets")
+
     }
 
     const handleSubmitPackageBase = () => {

@@ -107,7 +107,7 @@ export default function Page() {
                         <div title="All contributed components"
                             className="flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-500/50 p-4 rounded-md h-32 dark:text-gray-200">
                             <div className="flex gap-2 items-center">
-                                <span className="font-bold text-3xl md:text-4xl">30</span>
+                                <span className="font-bold text-xl md:text-2xl">30</span>
                                 <Send className="w-8 h-8" />
                             </div>
                             <span className="font-semibold text-sm text-center">Components contributed</span>
@@ -116,7 +116,7 @@ export default function Page() {
                         <div title="Users got help"
                             className="flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-500/50 p-4 rounded-md h-32 dark:text-gray-200">
                             <div className="flex gap-2 items-center">
-                                <span className="font-bold text-3xl md:text-4xl">93.9k</span>
+                                <span className="font-bold text-xl md:text-2xl">93.9k</span>
                                 <Users className="w-8 h-8" />
                             </div>
                             <span className="font-semibold text-sm text-center">Users got help</span>
@@ -125,7 +125,7 @@ export default function Page() {
                         <div title="Total favorites received on components"
                             className="flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-500/50 p-4 rounded-md h-32 dark:text-gray-200">
                             <div className="flex gap-2 items-center">
-                                <span className="font-bold text-3xl md:text-4xl">60</span>
+                                <span className="font-bold text-xl md:text-2xl">60</span>
                                 <Heart className="w-8 h-8" />
                             </div>
                             <span className="font-semibold text-sm text-center">Favorites received</span>
@@ -134,7 +134,7 @@ export default function Page() {
                         <div title="component views"
                             className="md:col-start-2 lg:col-auto flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-500/50 p-4 rounded-md h-32 dark:text-gray-200">
                             <div className="flex gap-2 items-center">
-                                <span className="font-bold text-3xl md:text-4xl">3.3k</span>
+                                <span className="font-bold text-xl md:text-2xl">3.3k</span>
                                 <Eye className="w-8 h-8" />
                             </div>
                             <span className="font-semibold text-sm text-center">Views in last 30 days</span>

@@ -1,17 +1,41 @@
 'use client';
 
 import Link from 'next/link';
-import { Car, CarFront, Home, LineChart, MapPinned, Package, PanelLeft, Server, Settings, ShoppingCart, Users2 } from 'lucide-react';
+import {CarFront,Home,MapPinned,PanelLeft,Server,Settings,ShieldCheck,ShoppingCart,Store,Users2} from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { VercelLogo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { NavItem } from '../dash/nav-item';
+import { useState } from 'react';
+import Securite from '../securite/Securite';
 
-export default function DesktopNav({ collapsed, setCollapsed }: {
-    collapsed: boolean;
-    setCollapsed: (value: boolean) => void;
-}) {
+const navItems = [
+    { href: '/dashboard/compte', label: 'Dashboard', icon: <Home className="h-5 w-5" /> },
+    { href: '/dashboard/commandes', label: 'Mes commandes', icon: <ShoppingCart className="h-5 w-5" /> },
+    { href: '/dashboard/trajets', label: 'Trajets', icon: <MapPinned className="h-5 w-5" /> },
+    { href: '/dashboard/listes-vehicles', label: 'Ma flotte', icon: <CarFront className="h-5 w-5" /> },
+    { href: '/dashboard/transaction', label: 'Transactions', icon: <Users2 className="h-5 w-5" /> },
+    { href: '/dashboard/services', label: 'Services', icon: <Server className="h-5 w-5" /> },
+    { href: '/dashboard/liste-users', label: 'Liste des utilisateurs', icon: <Users2 className="h-5 w-5" /> },
+    // boutiques
+    { href: '/dashboard/boutiques', label: 'Boutiques', icon: <Store className="h-5 w-5" /> },
+];
+
+export default function DesktopNav({ collapsed,  setCollapsed }: { collapsed: boolean; setCollapsed: (value: boolean) => void; }){
+
+    const [openSecurite, setOpenSecurite] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    // openSecurite fonction pour ouvrir la sécurité
+    const openSecuriteSheet = () => {
+        setCollapsed(false);
+        setOpenSecurite(true);
+    };
+    
     return (
+
+        <>
+
         <aside className={`fixed inset-y-0 left-0 z-10 hidden flex-col border-r bg-background transition-all duration-300 ${collapsed ? 'w-16' : 'w-60' } sm:flex`} >
             <div className="flex justify-between p-2">
                 <Link
@@ -31,29 +55,22 @@ export default function DesktopNav({ collapsed, setCollapsed }: {
             </div>
 
             <nav className="flex flex-col gap-4 px-2 sm:py-5">
-                <NavItem href="/dashboard/compte" label="Dashboard" collapsed={collapsed}>
-                    <Home className="h-5 w-5" />
-                </NavItem>
-                <NavItem href="/dashboard/commandes" label="Mes commandes" collapsed={collapsed}>
-                    <ShoppingCart className="h-5 w-5" />
-                </NavItem>
-
-                
-                <NavItem href="/dashboard/trajets" label="Trajets" collapsed={collapsed}>
-                    <MapPinned className="h-5 w-5" />
-                </NavItem>
-                
-                <NavItem href="/dashboard/listes-vehicles" label="Ma flotte" collapsed={collapsed}>
-                    <CarFront className="h-5 w-5" />
-                </NavItem>
-                <NavItem href="/dashboard/transaction" label="Transactions" collapsed={collapsed}>
-                    <Users2 className="h-5 w-5" />
-                </NavItem>
-
-                <NavItem href="/dashboard/services" label="Services" collapsed={collapsed}>
-                    <Server className="h-5 w-5" />
-                </NavItem>
+                {navItems.map(({ href, label, icon }) => (
+                    <NavItem key={href} href={href} label={label} collapsed={collapsed}>
+                        {icon}
+                    </NavItem>
+                ))}
             </nav>
+
+                <div className="mt-auto flex flex-col px-2">
+                    <button
+                        onClick={() => openSecuriteSheet()}
+                        className="flex items-center h-9 w-auto rounded-lg text-muted-foreground hover:text-foreground space-x-2"
+                    >
+                        <ShieldCheck className="h-6 w-6" />
+                        <span>Sécurité</span>
+                    </button>
+                </div>
 
             <div className="mt-auto flex flex-col px-2 py-4">
                 <Tooltip>
@@ -69,5 +86,12 @@ export default function DesktopNav({ collapsed, setCollapsed }: {
                 </Tooltip>
             </div>
         </aside>
+
+        <Securite onClose={() => setOpenSecurite(false)} isOpen={openSecurite} />
+
+        </>
+
     );
+
+
 }

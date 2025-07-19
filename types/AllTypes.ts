@@ -25,6 +25,13 @@ export enum OrderStatus {
     COMPLETED = "COMPLETED",
     CANCELLED = "CANCELLED",
 }
+export enum OrderStatusFrench {
+    PENDING = "EN ATTENTE",
+    VALIDATED = "VALIDÉE",
+    IN_PROGRESS = "EN COURS DE TRAITEMENT",
+    COMPLETED = "TERMINÉE",
+    CANCELLED = "ANNULÉE",
+}
 
 export enum PaymentMethod {
     IMMEDIATE = "IMMEDIATE",
@@ -33,12 +40,46 @@ export enum PaymentMethod {
     CARD = "CARD",
     BANK_TRANSFER = "BANK_TRANSFER",
 }
+export enum PaymentMethodFrench {
+    IMMEDIATE = "PAIEMENT IMMÉDIAT",
+    ON_ARRIVAL = "PAIEMENT À LA LIVRAISON",
+    MOBILE_MONEY = "MOBILE MONEY",
+    CARD = "CARTE BANCAIRE",
+    BANK_TRANSFER = "VIREMENT BANCAIRE",
+}
+
+
+export enum DeliveryMethod {
+    HOME_DELIVERY = "HOME_DELIVERY",
+    STORE_PICKUP = "STORE_PICKUP",
+    LIFT = "LIFT",
+    PICKUP = "PICKUP",
+    DROP = "DROP",
+}
+
+export enum DeliveryMethodFrench {
+    HOME_DELIVERY = "LIVRAISON À DOMICILE",
+    STORE_PICKUP = "RETRAIT EN MAGASIN",
+    LIFT = "COVOITURAGE",
+    PICKUP = "POINT DE RETRAIT",
+    DROP = "DÉPÔT À UN POINT",
+}
+
 
 export enum TransactionType {
     DEPOSIT = "DEPOSIT",
     PAYMENT = "PAYMENT",
     COMMISSION = "COMMISSION",
+    REFUND = "REFUND",
 }
+
+export enum TransactionTypeFrench {
+    DEPOSIT = "DÉPÔT",
+    PAYMENT = "PAIEMENT",
+    COMMISSION = "COMMISSION",
+    REFUND = "REMBOURSEMENT",
+}
+
 
 export enum VehicleType {
     ECONOMIQUE = "ECONOMIQUE",
@@ -54,8 +95,8 @@ export enum UserStatus {
 }
 
 export enum ServiceType {
-    DELIVERY = "DELIVERY",
     ECOMMERCE = "ECOMMERCE",
+    DELIVERY = "DELIVERY",
     RESTAURANT = "RESTAURANT",
 }
 

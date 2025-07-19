@@ -40,18 +40,20 @@ export function SearchInput() {
     return (
         <div className="ml-auto flex items-center gap-4 md:grow-0">
 
-            <div onClick={() => setModalOpen(true )} className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="flex items-center gap-2">
-                    <Wallet className="h-5 w-5 text-muted-foreground" />
-                    <p className="border-b border-dashed border-muted-foreground text-sm font-semibold text-muted-foreground cursor-pointer">
+            <div
+                onClick={() => setModalOpen(true)}
+                className="flex flex-col items-center gap-1 cursor-pointer text-center max-w-[120px] sm:max-w-[160px]"
+            >
+                <div className="flex items-center gap-1 sm:gap-2">
+                    <Wallet className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+                    <p className="border-b border-dashed border-muted-foreground text-xs sm:text-sm font-semibold text-muted-foreground">
                         20000 F
                     </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground truncate">
                     NR 569201385263
                 </p>
             </div>
-
 
             {/* Notifications avec Modal */}
             <Dialog>

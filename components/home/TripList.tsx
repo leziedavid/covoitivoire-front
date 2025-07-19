@@ -43,12 +43,12 @@ export default function TripList({ trips }: TripListProps) {
                 description: "Veuillez vous connecter avant de réserver.",
                 action: {
                     label: "Se connecter",
-                    onClick: () => router.push("/login"),
+                    onClick: () => router.push("/auth/login"),
                 },
             });
 
             setTimeout(() => {
-                router.push("/login");
+                router.push("/auth/login");
             }, 3000);
             return;
         }

@@ -1,16 +1,16 @@
 
 import { ReactNode ,createContext, useContext,useEffect,useState,} from "react";
-import { IMenu } from "types/models";
+import { Product } from "@/types/ApiReponse/ProduitsResponse";
 
 type cartItem = {
-  product: IMenu;
+  product:Product ;
   count: number;
 };
 
 interface CartContext {
   items: cartItem[];
-  updateCart(product: IMenu, qty: number): void;
-  removeFromCart(product: IMenu): void;
+  updateCart(product: Product, qty: number): void;
+  removeFromCart(product: Product): void;
   countAllItems(): number;
   countTotalPrice(): string;
   clearCart(): void;
@@ -34,7 +34,7 @@ const CartContext = createContext<CartContext>({
 const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<cartItem[]>([]);
 
-  const removeFromCart = (product: IMenu) => {
+  const removeFromCart = (product: Product) => {
     const newProducts = cartItems.filter(
       (item) => item.product.id !== product.id
     );
@@ -47,7 +47,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     updateCartInLS([]);
   };
 
-  const updateCart = (product: IMenu, qty: number) => {
+  const updateCart = (product: Product, qty: number) => {
 
     const finalCartItems = [...cartItems];
     const index = cartItems.findIndex((item) => product.id === item.product.id);

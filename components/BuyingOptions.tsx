@@ -4,7 +4,7 @@ import { LucideShoppingCart } from "lucide-react";
 import { FC } from "react";
 import { Button } from "./ui/button";
 import { useCart } from "@/app/context/CartProvider";
-import { Product } from "@/types/AllTypes";
+import { Product } from "@/types/ApiReponse/ProduitsResponse";
 
 interface Props {
   product: Product;

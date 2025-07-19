@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react'
 import { getUserImageUrl, getUserName, useAuthMiddleware } from '@/app/middleware'
 
 export function User() {
+    
     const [imageUrl, setImageUrl] = useState<string | null>(null)
     const [name, setName] = useState<string | null>(null)
 
@@ -35,6 +36,16 @@ export function User() {
         fetchName()
     }, [])
 
+    // fonction pour se déconnecter
+    const logout = (): void => {
+        // Fonction de déconnexion qui supprime les tokens et redirige vers login
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('access_token') // Supprime access_token
+            localStorage.removeItem('refresh_token') // Supprime refresh_token
+            window.location.href = '/auth/login' // Redirige vers la page de connexion
+        }
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -49,7 +60,9 @@ export function User() {
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                    <Link href="/login">Se connecter</Link>
+                    <Button variant="ghost" className='text-red-500' onClick={logout}>
+                        Se déconnecter
+                    </Button>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

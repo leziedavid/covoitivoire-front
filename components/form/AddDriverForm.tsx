@@ -19,6 +19,7 @@ import { Mail, User, Lock, UserCheck, Globe, Phone, Camera, FileText, CreditCard
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { addDriverByPartner, signUp } from "@/api/services/auth";
 
 
 const roles: Role[] = Object.values(Role);
@@ -28,9 +29,10 @@ type AddDriverFormProps = {
     initialValues?: Partial<VehicleRequest>;
     isOpen: boolean;
     onClose: () => void;
+    fetchData: () => void;
 };
 
-export function AddDriverForm({ initialValues, isOpen, onClose }: AddDriverFormProps) {
+export function AddDriverForm({ initialValues, isOpen, onClose, fetchData }: AddDriverFormProps) {
 
 
     const {register,handleSubmit,setValue,watch,formState: { errors },} = useForm<z.infer<typeof RegisterDriverSchema>>({
@@ -156,19 +158,17 @@ export function AddDriverForm({ initialValues, isOpen, onClose }: AddDriverFormP
                 // Ajouter les fichiers
                 if (formData.file && formData.file.length > 0) {
                     // Photo de profil (un seul fichier)
-                    payload.append('profilePhoto', formData.file[0]);
+                    payload.append('file', formData.file[0]);
                 }
     
                     if (formData.permis && formData.permis.length > 0) {
-                        payload.append('drivingLicense', formData.permis[0]);
+                        payload.append('carte', formData.permis[0]);
                     }
     
                     if (formData.carte && formData.carte.length > 0) {
-                        payload.append('identityCard', formData.carte[0]);
+                        payload.append('permis', formData.carte[0]);
                     }
-    
-                console.log('✅ Données préparées pour l\'API');
-    
+        
                 for (let [key, value] of payload.entries()) {
                     if (value instanceof File) {
                         console.log(`${key}: ${value.name} (${value.size} bytes)`);
@@ -178,21 +178,34 @@ export function AddDriverForm({ initialValues, isOpen, onClose }: AddDriverFormP
                 }
     
                 // Appel API (remplacez par votre endpoint)
-                const response = await fetch('/api/registerade', {
-                    method: 'POST',
-                    body: payload, // Ne pas définir Content-Type, le navigateur le fera automatiquement
-                });
-    
-                if (!response.ok) {
-                    toast.error('Erreur lors de l\'inscription. Veuillez réessayer.');
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                // const response = await fetch('/api/registerade', {
+                //     method: 'POST',
+                //     body: payload, // Ne pas définir Content-Type, le navigateur le fera automatiquement
+                // });
+                // if (!response.ok) {
+                //     toast.error('Erreur lors de l\'inscription. Veuillez réessayer.');
+                //     throw new Error(`HTTP error! status: ${response.status}`);
+                // }
+                // const result = await response.json();
+                // console.log('✅ Inscription réussie:', result);
+                
+                // signUp
+                console.log('✅ Inscription en cours...', payload);
+                const response = await addDriverByPartner(payload);
+                console.log('✅ Inscription réussie:', response);
+                
+                if (response.statusCode === 201) {
+                    toast.success('Inscription réussie');
+                    fetchData();
+                    // fermer le modal de login
+                    onClose();
+
+                } else {
+                    toast.error( response.message || 'Erreur lors de l\'inscription. Veuillez réessayer.');
+
                 }
-                const result = await response.json();
-                console.log('✅ Inscription réussie:', result);
     
-                // Rediriger ou afficher un message de succès
-                // router.push('/login') ou autre action
-    
+
             } catch (error) {
                 console.error('❌ Erreur lors de l\'inscription:', error);
                 toast.error('Erreur lors de l\'inscription. Veuillez réessayer.');

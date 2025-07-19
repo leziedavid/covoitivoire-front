@@ -182,7 +182,7 @@ export function PhoneInput({
 				</PopoverContent>
 			</Popover>
 		
-			<Input ref={inputRef} type="text" pattern="^(\+)?[0-9\s]*$" name="phone" id={id} placeholder="Phone" defaultValue={initializeDefaultValue()} onInput={handleOnInput} onPaste={handleOnPaste} onKeyDown={handleKeyDown} required={required} aria-required={required} {...rest} />
+			<input ref={inputRef} className="w-full py-2 pl-12 pr-4 text-base rounded-md border-1 outline-none focus:border-orange-600 focus:ring-0 bg-white placeholder-gray-400" type="text" pattern="^(\+)?[0-9\s]*$" name="phone" id={id} placeholder="Phone" defaultValue={initializeDefaultValue()} onInput={handleOnInput} onPaste={handleOnPaste} onKeyDown={handleKeyDown} required={required} aria-required={required} {...rest} />
 		
 		</div>
 	);

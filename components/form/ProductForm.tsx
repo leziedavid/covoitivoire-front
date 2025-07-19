@@ -24,6 +24,7 @@ export function ProductForm({ initialValues, isOpen,onClose, categories, variant
     
     const [files, setFiles] = useState<Record<string, File[]>>({});
     const [progresses, setProgresses] = useState<Record<string, Record<string, number>>>({});
+    const [categoryFilter, setCategoryFilter] = useState('');
 
     const selectedVariantType = watch('variantType');
     const selectedVariantIds = watch('variantIds') || [];
@@ -152,7 +153,7 @@ export function ProductForm({ initialValues, isOpen,onClose, categories, variant
                         </div>
 
                         {/* Category */}
-                        <div className="sm:col-span-2 w-full">
+                        {/* <div className="sm:col-span-2 w-full">
                             <Label>Catégorie</Label>
                             <Controller  control={control}  name="categoryId" rules={{ required: true }}
                                 render={({ field }) => (
@@ -169,6 +170,47 @@ export function ProductForm({ initialValues, isOpen,onClose, categories, variant
                                         </SelectContent>
                                     </Select>
                                 )}
+                            />
+                        </div> */}
+
+                        {/* Category */}
+                        <div className="sm:col-span-2 w-full">
+                            <Label>Catégorie</Label>
+                            <Controller
+                                control={control}
+                                name="categoryId"
+                                rules={{ required: true }}
+                                render={({ field }) => {
+                                    const filteredCategories = categories.filter(cat =>
+                                        cat.name.toLowerCase().includes(categoryFilter.toLowerCase())
+                                    );
+
+                                    return (
+                                        <Select onValueChange={field.onChange} value={field.value || ''}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Sélectionnez une catégorie" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {/* Champ de recherche */}
+                                                <div className="p-2">
+                                                    <Input placeholder="Rechercher une catégorie..." value={categoryFilter}
+                                                        onChange={(e) => setCategoryFilter(e.target.value)}
+                                                        className="w-full" />
+                                                </div>
+                                                {/* Résultats filtrés */}
+                                                {filteredCategories.length > 0 ? (
+                                                    filteredCategories.map(cat => (
+                                                        <SelectItem key={cat.id} value={cat.id}>
+                                                            {cat.name}
+                                                        </SelectItem>
+                                                    ))
+                                                ) : (
+                                                    <div className="px-4 py-2 text-sm text-gray-500">Aucune catégorie trouvée</div>
+                                                )}
+                                            </SelectContent>
+                                        </Select>
+                                    );
+                                }}
                             />
                         </div>
 

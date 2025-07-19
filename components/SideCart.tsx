@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useCart } from "@/app/context/CartProvider";
+import { useEffect, useState } from "react";
+import { isSessionStillValid, useAuthMiddleware } from "@/app/middleware";
 
 interface Props {
   visible?: boolean;
@@ -12,15 +14,33 @@ interface Props {
 }
 
 const SideCart: React.FC<Props> = ({ visible, onRequestClose }) => {
-  const {
-    items: cartItems,
-    updateCart,
-    removeFromCart,
-    countTotalPrice,
-    clearCart,
-  } = useCart();
+
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+
+
+      const getIsAuthenticated = async () => {
+          const res = await isSessionStillValid()
+          setIsAuthenticated(res)
+              if (res) {
+                  checkAuth();
+              }
+          }
+      
+      useEffect(() => {
+          getIsAuthenticated()
+      }, [])
+
+
+  const checkAuth = async () => {
+    const result = await useAuthMiddleware();
+    setIsLoggedIn(!!result);
+  };
+
+  const {items: cartItems,updateCart,removeFromCart,countTotalPrice,clearCart, } = useCart();
   const router = useRouter();
-  const isLoggedIn = "authenticated";
 
   return (
 
@@ -46,13 +66,14 @@ const SideCart: React.FC<Props> = ({ visible, onRequestClose }) => {
 
           cartItems.map((cartItem) => (
             <div key={cartItem.product.id} className="p-4 flex space-x-4 border-b">
-              <Image src={cartItem.product.imageUrl} alt="" className="rounded object-cover" width={60} height={60} />
+              {/* product.imageUrl || "/astronaut-grey-scale.svg" */}
+              <Image src={cartItem.product.imageUrl || "/astronaut-grey-scale.svg"} alt="" className="rounded object-cover" width={60} height={60} />
               <div className="flex-1">
                 <h2 className="font-semibold">{cartItem.product.name}</h2>
                 <div className="flex text-gray-400 text-sm space-x-1">
                   <span>{cartItem.count}</span>
                   <span>x</span>
-                  <span className="font-bold text-sm"> {cartItem.count * cartItem.product.price} F/Kg</span>
+                  <span className="font-bold text-sm"> {cartItem.count * cartItem.product.price} Fcfa</span>
                 </div>
               </div>
 
@@ -77,14 +98,11 @@ const SideCart: React.FC<Props> = ({ visible, onRequestClose }) => {
                 <span className="text-gray-400 text-black  font-normal">Montant total:</span> {countTotalPrice()} Fcfa
               </p>
             </div>
-
-            <button
-              onClick={() => {
-                if (isLoggedIn) {
-                  router.push("/checkout");
-                } else {
-                  router.push("/auth/sign-in");
-                } onRequestClose && onRequestClose(); }} className="border-1  py-2 w-full rounded  uppercase mt-4" >
+            
+            <button onClick={() => {
+                if (isLoggedIn) {  router.push("/checkout"); } else { router.push("/auth/login"); }
+                onRequestClose && onRequestClose();
+              }} className="border-1  py-2 w-full rounded  uppercase mt-4" >
               Checkout
             </button>
 

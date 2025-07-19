@@ -38,7 +38,8 @@ export function AssignDriver({ isOpen, onClose }: AssignDriverProps) {
     const [totalItems, setTotalItems] = useState(0);
     const [limit] = useState(10);
     const itemsPerPage = limit; // pour affichage dans l’UI
-
+    const [driverFilter, setDriverFilter] = useState('');
+    const [vehicleFilter, setVehicleFilter] = useState('');
 
     const { control, handleSubmit, reset, formState: { isSubmitting }, } = useForm<z.infer<typeof assignSchema>>({
         resolver: zodResolver(assignSchema),defaultValues: {
@@ -154,47 +155,92 @@ export function AssignDriver({ isOpen, onClose }: AssignDriverProps) {
 
                 <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-4 mt-6 w-full">
                     {/* Select Conducteur */}
+
+
+                    {/* Select Conducteur avec filtre */}
                     <div className="w-full">
                         <Label>Conducteur</Label>
-                        <Controller name="driverId" control={control} render={({ field }) => (
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Sélectionner un conducteur" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {drivers.map((driver) => (
-                                            <SelectItem key={driver.id} value={driver.id}>
-                                                {driver.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            )}
+                        <Controller
+                            name="driverId"
+                            control={control}
+                            render={({ field }) => {
+                                const filteredDrivers = drivers.filter(d =>
+                                    d.name.toLowerCase().includes(driverFilter.toLowerCase())
+                                );
+
+                                return (
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Sélectionner un conducteur" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <div className="p-2">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Rechercher un conducteur..."
+                                                    value={driverFilter}
+                                                    onChange={(e) => setDriverFilter(e.target.value)}
+                                                    className="w-full px-2 py-1 border rounded text-sm"
+                                                />
+                                            </div>
+                                            {filteredDrivers.length > 0 ? (
+                                                filteredDrivers.map((driver) => (
+                                                    <SelectItem key={driver.id} value={driver.id}>
+                                                        {driver.name}
+                                                    </SelectItem>
+                                                ))
+                                            ) : (
+                                                <div className="px-4 py-2 text-sm text-gray-500">Aucun conducteur trouvé</div>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                );
+                            }}
                         />
                     </div>
 
-                    {/* Select Véhicule */}
+                    {/* Select Véhicule avec filtre */}
                     <div className="w-full">
                         <Label>Véhicule</Label>
                         <Controller
                             name="vehicleId"
                             control={control}
-                            render={({ field }) => (
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Sélectionner un véhicule" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {vehicles.map((veh) => (
-                                            <SelectItem key={veh.id} value={veh.id}>
-                                                {veh.model}-{veh.brand}-{veh.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            )}
+                            render={({ field }) => {
+                                const filteredVehicles = vehicles.filter(v =>
+                                    `${v.model} ${v.brand} ${v.name}`.toLowerCase().includes(vehicleFilter.toLowerCase())
+                                );
+
+                                return (
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Sélectionner un véhicule" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <div className="p-2">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Rechercher un véhicule..."
+                                                    value={vehicleFilter}
+                                                    onChange={(e) => setVehicleFilter(e.target.value)}
+                                                    className="w-full px-2 py-1 border rounded text-sm"
+                                                />
+                                            </div>
+                                            {filteredVehicles.length > 0 ? (
+                                                filteredVehicles.map((veh) => (
+                                                    <SelectItem key={veh.id} value={veh.id}>
+                                                        {veh.model} - {veh.brand} - {veh.name}
+                                                    </SelectItem>
+                                                ))
+                                            ) : (
+                                                <div className="px-4 py-2 text-sm text-gray-500">Aucun véhicule trouvé</div>
+                                            )}
+                                        </SelectContent>
+                                    </Select>
+                                );
+                            }}
                         />
                     </div>
+
 
                     <div className=" w-full">
                         <Button type="submit" className="mt-4 w-fit px-6" disabled={isSubmitting} >
@@ -238,15 +284,19 @@ export function AssignDriver({ isOpen, onClose }: AssignDriverProps) {
                                                                     <div className="flex flex-col gap-2">
                                                                         {a.drivers.map((driver) => (
                                                                             <div key={driver.id} className="flex items-center gap-2">
-                                                                                <Image
-                                                                                    src={driver.image ?? "/placeholder-avatar.png"}
-                                                                                    alt={driver.name}
-                                                                                    width={32}
-                                                                                    height={32}
-                                                                                    className="rounded-full object-cover border"
-                                                                                />
+                                                                                <div className="relative w-8 h-8 rounded-full overflow-hidden border">
+                                                                                    <Image
+                                                                                        src={driver.image ?? "/placeholder-avatar.png"}
+                                                                                        alt={driver.name}
+                                                                                        fill
+                                                                                        sizes="32px"
+                                                                                        style={{ objectFit: "cover" }}
+                                                                                        className="rounded-full"
+                                                                                    />
+                                                                                </div>
                                                                                 <span>{driver.name}</span>
                                                                             </div>
+
                                                                         ))}
                                                                     </div>
                                                                 ) : (

@@ -9,7 +9,7 @@ import { ListesVehicle, Vehicle } from "@/types/ApiReponse/VehicleResponse";
 import { VehicleForm } from "@/components/form/VehicleForm";
 import { VehicleType } from "@/types/AllTypes";
 import { VehicleRequest } from "@/types/ApiRequest/VehicleRequest";
-import { Link2, Plus, UserPlus } from "lucide-react";
+import { ChevronRight, Link2, Plus, UserPlus } from "lucide-react";
 import { AssignDriver } from "@/components/form/AssignDriver";
 import { DataTableSkeleton } from "@/components/table/data-table-skeleton";
 import { AddDriverForm } from "@/components/form/AddDriverForm";
@@ -175,21 +175,38 @@ export default function Page() {
 
     return (
         <div className="w-full overflow-x-auto">
-            <div className="flex justify-end mb-4 space-x-2">
-                <Button onClick={openAddDriverForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center gap-2" >
-                    <UserPlus className="w-4 h-4" />
-                    Ajouter un nouveau chauffeur
-                </Button>
 
-                <Button onClick={openAssignForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center gap-2">
-                    <Link2 className="w-4 h-4" />
-                    Assigner véhicule
-                </Button>
+            <div className="w-full overflow-x-auto mb-4 relative">
+                <div className="flex justify-start sm:justify-end gap-2 min-w-[500px] sm:min-w-0 px-2 whitespace-nowrap">
+                    <Button
+                        onClick={openAddDriverForm}
+                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
+                    >
+                        <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Nouveau chauffeur</span>
+                    </Button>
 
-                <Button onClick={openCreateForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded flex items-center gap-2">
-                    <Plus className="w-4 h-4" />
-                    Ajouter véhicule
-                </Button>
+                    <Button
+                        onClick={openAssignForm}
+                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
+                    >
+                        <Link2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Assigner véhicule</span>
+                    </Button>
+
+                    <Button
+                        onClick={openCreateForm}
+                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
+                    >
+                        <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Ajouter véhicule</span>
+                    </Button>
+                </div>
+
+                {/* Chevron animé - visible uniquement sur mobile */}
+                <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 sm:hidden animate-bounce">
+                    <ChevronRight className="w-5 h-5 text-muted-foreground opacity-80" />
+                </div>
             </div>
 
             {isFormOpen && (
@@ -208,31 +225,33 @@ export default function Page() {
             )}
 
             {isAddDriverFormOpen && (
-                <AddDriverForm onClose={closeAddDriverForm} isOpen={isAddDriverFormOpen} />
+                <AddDriverForm onClose={closeAddDriverForm} isOpen={isAddDriverFormOpen}
+                  fetchData={() => fetchData(currentPage)} // ✅ on passe une fonction
+                />
             )}
 
             {isDataEmpty ? (
-                
+
                 <DataTableSkeleton columnCount={5} rowCount={10} />
 
-                ) : (
+            ) : (
 
-                    <DataTable
-                        columns={vehicleColumns}
-                        data={vehicles}
-                        onChangeState={handleChangeState}
-                        onUpdateData={handleUpdate}
-                        onDeleteData={handleDelete}
-                        onValidateData={handleValidate}
-                        stateOptions={["active", "inactive"]}
-                        onNextPage={handleNextPage}
-                        onPreviousPage={handlePreviousPage}
-                        currentPage={currentPage}
-                        totalItems={totalItems}
-                        itemsPerPage={limit}
-                    />
+                <DataTable
+                    columns={vehicleColumns}
+                    data={vehicles}
+                    onChangeState={handleChangeState}
+                    onUpdateData={handleUpdate}
+                    onDeleteData={handleDelete}
+                    onValidateData={handleValidate}
+                    stateOptions={["active", "inactive"]}
+                    onNextPage={handleNextPage}
+                    onPreviousPage={handlePreviousPage}
+                    currentPage={currentPage}
+                    totalItems={totalItems}
+                    itemsPerPage={limit}
+                />
 
-                )}
+            )}
 
         </div>
     );

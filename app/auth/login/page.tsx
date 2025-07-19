@@ -70,6 +70,7 @@ export default function LoginPage() {
 
     // Gestion du changement de numéro de téléphone
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
         setPhoneValue(e.target.value);
         setPhoneValid(true); // Vous pouvez ajouter une vraie validation ici
         if (!phoneTouched) setPhoneTouched(true);
@@ -86,6 +87,7 @@ export default function LoginPage() {
 
         } else {
             const phoneNumberValue = watch('phoneNumber');
+            // console.log(phoneNumberValue);
             return phoneNumberValue && passwordValue && phoneValid && !errors.phoneNumber && !errors.password;
         }
     };
@@ -93,14 +95,17 @@ export default function LoginPage() {
 
     // Typage de la fonction
     const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-
+        
+        console.log(data);
         // Vérification du numéro si mode téléphone
         if (loginMode === 'phone' && !phoneValid) {
             toast.error('Numéro de téléphone invalide')
             return
         }
+
         // Construction des données selon le mode
         const loginData: Partial<LoginDto> = { password: data.password, ...(loginMode === 'email' ? { email: data.email } : { phoneNumber: data.phoneNumber }), }
+        console.log(loginData);
 
         try {
 

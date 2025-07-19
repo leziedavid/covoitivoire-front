@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import DesktopNav from './desktop-nav';
-import MobileNav from './mobile-nav';
+import MobileNav from './mobile-nav1';
 import DashboardBreadcrumb from './dashboard-breadcrumb';
 import MainHeader from './main-header';
 
