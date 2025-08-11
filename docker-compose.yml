@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./storage:/app/storage    # si tu as besoin de persister certains fichiers (optionnel)
+      - ./production.env.local:/app/.env.local    # monte fichier .env.local si tu veux modifiable
+    environment:
+      NODE_ENV: production
+    restart: always
