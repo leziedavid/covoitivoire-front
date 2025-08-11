@@ -146,8 +146,10 @@ export function MainCta() {
     const removePackage = (index: number) => setPackages(packages.filter((_, i) => i !== index))
 
     return (
-        <section className="py-20 bg-cover bg-center" style={{ backgroundImage:"url('/update.png')",}}>
-            <div className="container mx-auto px-6 flex justify-start">
+        <section className="py-20 bg-cover bg-center" style={{ backgroundImage:"url('/voiture.jpg')",}}>
+            {/* Overlay en dégradé noir → bleu */}
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-[#000000] to-[#9ecdd6] opacity-80 z-0"></div>
+            <div className="relative z-10 container mx-auto px-6 flex justify-start">
                 <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-xl">
                     <h1 className="text-4xl md:text-4xl font-extrabold mb-6 uppercase"> Rechercher un trajet
                     </h1>

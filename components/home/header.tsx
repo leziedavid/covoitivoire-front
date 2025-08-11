@@ -14,10 +14,13 @@ import Securite from '../securite/Securite';
 import SupportServiceApp from '../securite/SupportServiceApp';
 import { isSessionStillValid } from '@/app/middleware';
 import Parametres from '../parametres/Parametres';
+import { useRouter } from 'next/navigation'
+
 
 // Composant Header principal
 const Header: React.FC = ({ }) => {
 
+    const router = useRouter();
     const { countAllItems } = useCart();
     const [showSideCart, setShowSideCart] = useState(false);
     const cartItems = countAllItems();
@@ -40,12 +43,12 @@ const Header: React.FC = ({ }) => {
             description: "",
             icon: <LucidePackage className="w-4 h-4 mr-2" /> // Icône pour PRODUITS
         },
-        {
-            title: "BOUTIQUE",
-            href: "/boutique",
-            description: "",
-            icon: <LucideImage className="w-4 h-4 mr-2" /> // Icône pour REALISATIONS
-        },
+        // {
+        //     title: "BOUTIQUE",
+        //     href: "/boutique",
+        //     description: "",
+        //     icon: <LucideImage className="w-4 h-4 mr-2" /> // Icône pour REALISATIONS
+        // },
         //  service
 
         {
@@ -92,6 +95,10 @@ const Header: React.FC = ({ }) => {
         getIsAuthenticated()
     }, [])
 
+    const Login = async () => {
+        router.push('/auth/login')
+    }
+
     return (
         <header className="flex flex-col items-center fixed top-0 z-50 w-full shadow-sm">
 
@@ -120,7 +127,7 @@ const Header: React.FC = ({ }) => {
                                             </>
                                         ) : (
                                             <>
-                                                <NavigationMenuTrigger className="font-medium text-sm font-extrabold font-title tracking-tight text-lg">
+                                                <NavigationMenuTrigger className="font-medium text-sm text-black font-semibold font-title tracking-tight text-lg">
                                                     {/* {item.icon} */}
                                                     {item.title}
                                                 </NavigationMenuTrigger>
@@ -133,9 +140,21 @@ const Header: React.FC = ({ }) => {
                     </nav>
 
                     <div className="flex  gap-x-2">
-                        {/* Icône du panier */}
                         <div className="flex  gap-x-2">
                             <div>
+                                {/* isAuthenticated */}
+                                {isAuthenticated ? (
+                                    <button onClick={() => router.push('/dashboard/compte')} className="relative bg-gray-200 p-1 px-3 rounded-full text-black font-semibold">
+                                        Mon compte
+                                    </button>
+                                ) : (
+                                    <button onClick={() => Login()} className="relative bg-gray-200 p-1 px-3 rounded-full text-black font-semibold">
+                                        Commencer
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* <div>
 
                                 <button
                                     onClick={() => setShowSideCart(true)}
@@ -148,8 +167,7 @@ const Header: React.FC = ({ }) => {
                                         </div>
                                     )}
                                 </button>
-                                {/* <ShoppingBasket className="w-5 h-5 text-white" /> */}
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
@@ -225,10 +243,7 @@ const Header: React.FC = ({ }) => {
 
                                 {/* Déconnexion */}
                                 <div className="border-t mt-4 pt-4 pb-6 px-4">
-                                    <button
-                                        onClick={() => setOpen(false)}
-                                        className="flex items-center gap-2 text-sm text-red-600 font-medium"
-                                    >
+                                    <button onClick={() => setOpen(false)} className="flex items-center gap-2 text-sm text-red-600 font-medium" >
                                         <LucideLogIn className="h-4 w-4" />
                                         Se déconnecter
                                     </button>

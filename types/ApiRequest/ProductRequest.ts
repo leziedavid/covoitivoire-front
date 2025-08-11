@@ -17,7 +17,7 @@ export interface ProductRequest {
     description?: string;
     price: number;
     stock: number;
-    sku: string;
+    // sku: string;
     imageFile?: File | null; // si upload unitaire
     files?: File[]; // multiple upload secondaire
     categoryId: string;
@@ -25,3 +25,16 @@ export interface ProductRequest {
     variantType?: VariantType;
     variantIds: string[];
 }
+
+export interface VarianteResponse {
+    id: string;
+    name: string;
+    value: string;
+    price: number;
+    variantType: VariantType; // ou string si tu n’as pas encore un enum
+    addedById: string;
+    createdAt: string; // ou Date si tu la convertis
+    updatedAt: string; // ou Date si tu la convertis
+}
+
+

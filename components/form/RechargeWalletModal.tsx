@@ -6,9 +6,7 @@ import { z } from 'zod'
 import { Input } from '../ui/input'
 
 type Network = 'Moov' | 'Orange' | 'Mtn' | 'Wave'
-
 type NetworkStatus = 'available' | 'unavailable'
-
 const networks: { id: Network; label: string; logo: string; status: NetworkStatus }[] = [
     { id: 'Moov', label: 'Moov', logo: '/moov.png', status: 'available' },
     { id: 'Orange', label: 'Orange', logo: '/orange.png', status: 'available' },
@@ -32,7 +30,7 @@ type Props = {
     accountNumber: string
 }
 
-export default function RechargeWalletModal({ open, onClose, onConfirm,accountNumber }: Props) {
+export default function RechargeWalletModal({ open, onClose, onConfirm, accountNumber }: Props) {
     const [selectedNetwork, setSelectedNetwork] = useState<Network | null>(null)
     const [amount, setAmount] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -92,14 +90,8 @@ export default function RechargeWalletModal({ open, onClose, onConfirm,accountNu
                             type="button"
                             onClick={() => status === 'available' && handleSelectNetwork(id)}
                             disabled={status === 'unavailable'}
-                            className={`relative flex flex-col items-center rounded-full border-2 p-2 transition
-      ${selectedNetwork === id && status === 'available'
-                                    ? 'border-green-500 shadow-md'
-                                    : 'border-transparent'}
-      ${status === 'unavailable' ? 'cursor-not-allowed opacity-40' : 'hover:border-gray-300'}
-    `}
-                            style={{ width: 70, height: 70 }}
-                        >
+                            className={`relative flex flex-col items-center rounded-full border-2 p-2 transition ${selectedNetwork === id && status === 'available' ? 'border-green-500 shadow-md' : 'border-transparent'}  ${status === 'unavailable' ? 'cursor-not-allowed opacity-40' : 'hover:border-gray-300'}`}
+                            style={{ width: 70, height: 70 }}>
                             <Image
                                 src={logo}
                                 alt={label}
@@ -128,7 +120,7 @@ export default function RechargeWalletModal({ open, onClose, onConfirm,accountNu
                     <button type="button" onClick={onClose} className="rounded bg-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-300" >
                         Annuler
                     </button>
-                    <button type="button" onClick={handleConfirm}  className="rounded bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50" disabled={!selectedNetwork} >
+                    <button type="button" onClick={handleConfirm} className="rounded bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50" disabled={!selectedNetwork} >
                         Valider
                     </button>
                 </div>

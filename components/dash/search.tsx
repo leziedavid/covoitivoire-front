@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Store, Bell, Wallet } from 'lucide-react';
 import { Spinner } from '../icons';
-import { getUserName } from '@/app/middleware';
+import { getUserAccountNumber, getUserName, getUserWallet } from '@/app/middleware';
 import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogTrigger,} from '@/components/ui/dialog';
 import RechargeWalletModal from '../form/RechargeWalletModal';
 
@@ -13,6 +13,10 @@ export function SearchInput() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [name, setName] = useState<string | null>(null);
+    //  wallet: number | null // Balance du portefeuille (peut être null)
+    const [wallet, setWallet] = useState<number | null>(null);
+    // getUserAccountNumber
+    const [accountNumber, setAccountNumber] = useState<string | null>(null);
     const [notifications, setNotifications] = useState<string[]>([
         "Votre commande a été expédiée",
         "Nouvelle promo sur les vêtements",
@@ -26,14 +30,23 @@ export function SearchInput() {
         // Ici appeler l'API ou logique de recharge...
     }
 
+    const fetchWallet = async () => {
+        const wallet = await getUserWallet();
+        setWallet(wallet);
+    };
+    const fetchAccountNumber = async () => {
+        const accountNumber = await getUserAccountNumber();
+        setAccountNumber(accountNumber);;
+    };
 
     const fetchName = async () => {
         const name = await getUserName();
         setName(name);
-        console.log(name);
     };
 
     useEffect(() => {
+        fetchWallet();
+        fetchAccountNumber();
         fetchName();
     }, []);
 
@@ -47,11 +60,11 @@ export function SearchInput() {
                 <div className="flex items-center gap-1 sm:gap-2">
                     <Wallet className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
                     <p className="border-b border-dashed border-muted-foreground text-xs sm:text-sm font-semibold text-muted-foreground">
-                        20000 F
+                        {wallet ?? "0"} F
                     </p>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground truncate">
-                    NR 569201385263
+                    {accountNumber ?? "NR 569201385263"}
                 </p>
             </div>
 

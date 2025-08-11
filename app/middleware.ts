@@ -28,6 +28,8 @@ interface DecodedToken extends JwtPayload {
     name: string | null // Nom de l'utilisateur (peut être null)
     imageUrl: string | null // URL de l'image de profil (peut être null)
     partnerId: string | null // ID du partenaire (peut être null)
+    wallet: number | null // Balance du portefeuille (peut être null)
+    compte: string | null // Numéro de compte (peut être null)
 }
 
 export const getTokenFromLocalStorage = (): string | null => {
@@ -95,6 +97,21 @@ export const getUserId = async (): Promise<string | null> => {
     return user?.sub ?? null
 }
 
+// getwallet
+
+export const getUserWallet = async (): Promise<number | null> => {
+    // Récupère le rôle utilisateur depuis le token décodé
+    const user = await useAuthMiddleware()
+    return user?.wallet ?? null
+}
+
+// compte
+export const getUserAccountNumber = async (): Promise<string | null> => {
+    // Récupère le rôle utilisateur depuis le token décodé
+    const user = await useAuthMiddleware()
+    return user?.compte ?? null
+}
+
 export const getUserRole = async (): Promise<Role | null> => {
     // Récupère le rôle utilisateur depuis le token décodé
     const user = await useAuthMiddleware()
@@ -151,7 +168,6 @@ export const logout = (): void => {
         window.location.href = '/auth/login' // Redirige vers la page de connexion
     }
 }
-
 
 /**
  * Vérifie si l'utilisateur est encore authentifié via access_token ou refresh_token.

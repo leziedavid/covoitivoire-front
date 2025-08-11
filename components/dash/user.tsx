@@ -56,9 +56,6 @@ export function User() {
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>{name ? name : 'Mon Compte'}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Paramètres</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem>
                     <Button variant="ghost" className='text-red-500' onClick={logout}>
                         Se déconnecter

@@ -112,7 +112,7 @@ export default function DashboardPage() {
             <Tableau/>
 
           {/* Dernières commandes */}
-          <Cards>
+          {/* <Cards>
             <h2 className="text-xl font-semibold mb-2">Dernières commandes</h2>
             <table className="w-full text-left border-collapse border border-gray-300">
               <thead>
@@ -141,10 +141,10 @@ export default function DashboardPage() {
                 ))}
               </tbody>
             </table>
-          </Cards>
+          </Cards> */}
 
           {/* Graphique d’évolution du solde */}
-          <Cards>
+          {/* <Cards>
             <h2 className="text-xl font-semibold mb-2">Évolution du solde</h2>
             <div style={{ width: "100%", height: 250 }}>
               <ResponsiveContainer>
@@ -160,7 +160,7 @@ export default function DashboardPage() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </Cards>
+          </Cards> */}
 
           {/* Liste des trajets récents */}
           <Cards>

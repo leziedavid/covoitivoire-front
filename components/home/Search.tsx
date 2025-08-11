@@ -86,7 +86,7 @@ export default function Search({ defaultValues, onSearch }: SearchProps) {
     return (
         <section
             className="py-20 bg-cover bg-center mb-4"
-            style={{ backgroundImage: "url('/update.png')" }}
+            style={{ backgroundImage: "url('/voiture.jpg')" }}
         >
             <div className="container mx-auto px-6 flex flex-col items-center space-y-8">
                 {/* Titre */}

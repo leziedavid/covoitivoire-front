@@ -26,12 +26,7 @@ const ProductGridShop: FC<ProductGridShopProps> = ({ products }) => {
                 {products.map((product) => (
                     <Card key={product.id} className="overflow-hidden">
                         <div className="relative h-48 w-full">
-                            <Image
-                                src={product.image}
-                                alt={product.name}
-                                fill
-                                className="object-cover"
-                            />
+                            <Image src={product.image} alt={product.name} fill className="object-cover" />
                             <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
                                 Vente en détail
                             </div>

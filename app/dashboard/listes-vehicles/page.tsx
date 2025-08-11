@@ -178,26 +178,17 @@ export default function Page() {
 
             <div className="w-full overflow-x-auto mb-4 relative">
                 <div className="flex justify-start sm:justify-end gap-2 min-w-[500px] sm:min-w-0 px-2 whitespace-nowrap">
-                    <Button
-                        onClick={openAddDriverForm}
-                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
-                    >
+                    <Button onClick={openAddDriverForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit" >
                         <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>Nouveau chauffeur</span>
                     </Button>
 
-                    <Button
-                        onClick={openAssignForm}
-                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
-                    >
+                    <Button onClick={openAssignForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit" >
                         <Link2 className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>Assigner véhicule</span>
                     </Button>
 
-                    <Button
-                        onClick={openCreateForm}
-                        className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit"
-                    >
+                    <Button onClick={openCreateForm} className="bg-gray-600 hover:bg-orange-600 text-white font-semibold py-2 px-3 sm:px-4 rounded flex items-center gap-1 sm:gap-2 text-xs sm:text-sm min-w-fit" >
                         <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
                         <span>Ajouter véhicule</span>
                     </Button>

@@ -43,13 +43,6 @@ export default function TripOrderList({ orders }: OrderProps) {
     return (
         <>
             <div className="px-4 py-2">
-                <div className="flex space-x-2 mb-4">
-                    {["Tout", "Véhicule", "Livraison"].map((tab) => (
-                        <button key={tab} className="px-4 py-1 bg-gray-100 rounded-full text-sm font-semibold">
-                            {tab}
-                        </button>
-                    ))}
-                </div>
 
                 {isLoading ? (
                     <div className="flex items-center justify-center py-10">
@@ -65,14 +58,10 @@ export default function TripOrderList({ orders }: OrderProps) {
                                 const time = order.trip.departureTime?.slice(0, 5) || "00:00"
 
                                 return (
-                                    <div
-                                        key={order.id}
+                                    <div key={order.id}
                                         onClick={() => {
                                             setSelectedOrder(order)
-                                            setOpen(true)
-                                        }}
-                                        className="bg-gray-50 rounded-xl p-4 mb-2 shadow-sm flex justify-between items-center cursor-pointer"
-                                    >
+                                            setOpen(true)  }} className="bg-gray-50 rounded-xl p-4 mb-2 shadow-sm flex justify-between items-center cursor-pointer" >
                                         <div>
                                             <div className="flex items-center gap-2 font-medium">
                                                 {type === 'Véhicule' ? (

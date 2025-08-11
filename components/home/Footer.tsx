@@ -1,18 +1,19 @@
 "use client";
-
 import Link from "next/link";
-import { Truck, ShoppingBag, Utensils, CarFront } from "lucide-react";
+import Image from 'next/image';  // Import de Image de Next.js
+import { Truck, ShoppingBag, Utensils, CarFront, AlertTriangle, CloudRain, Shield, Banknote, MessageCircle, Phone, MapPin, Mail, Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
+
 
 export const Footer = () => {
     const services = [
         {
             icon: <CarFront className="h-8 w-8" />,
-            title: "Covoiturage",
+            title: "Déplacez-vous avec covoitivoire",
             href: "/",
         },
         {
             icon: <ShoppingBag className="h-8 w-8" />,
-            title: "E-Commerce",
+            title: "Vendre et acheter sur covoitivoire",
             href: "/boutique",
         },
         {
@@ -41,59 +42,78 @@ export const Footer = () => {
     ];
 
     return (
-        <footer className="bg-foreground text-background py-20 px-6 lg:px-24">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div>
-                    <h2 className="text-3xl font-bold mb-6 tracking-tight">COVOITIVOIRE</h2>
-                    <p className="text-lg text-background/80 leading-relaxed">
-                        La plateforme de covoiturage et de services connectés pour faciliter vos trajets, livraisons, ventes et repas.
-                    </p>
-                </div>
 
-                <div>
-                    <h3 className="text-2xl font-semibold mb-4">Nos Services</h3>
-                    <ul className="space-y-3 text-lg">
-                        {services.map(({ title, href, icon }) => (
-                            <li key={title}>
-                                <Link href={href} className="flex items-center gap-3 hover:underline">
-                                    {icon}
+        <div className="bg-gradient-to-b from-[#000000] to-[#9ecdd6] text-white py-14 md:py-28  w-full">
+            
+            <div className="max-w-6xl mx-auto px-6 md:px-0">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    {/* Colonne 1 : Logo + description */}
+                    <div className="space-y-4">
+                        <Image
+                            src="/logoHome.png"
+                            alt="logo"
+                            className="h-20 md:h-20"
+                            width={200}
+                            height={250}
+                            layout="intrinsic"
+                        />
+                        <p className="text-lg break-words">
+                            Conduisez quand vous voulez, générez des revenus sur mesure.
+                        </p>
+                        <p className="text-lg break-words">
+                            Covoitivoire est une plateforme de covoiturage connectée qui vous
+                            permet de gérer vos trajets, livraisons, ventes et repas.
+                        </p>
+                    </div>
+
+                    {/* Colonne 2 : Services */}
+                    <div className="space-y-4">
+                        <h3 className="uppercase text-xl font-bold">Services</h3>
+                        <div className="flex flex-col gap-y-3 text-base font-normal">
+                            {services.map(({ title, href, icon }) => (
+                                <Link href={href} key={title} className="hover:underline">
                                     {title}
                                 </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                            ))}
+                        </div>
+                    </div>
 
-                <div>
-                    <h3 className="text-2xl font-semibold mb-4">Entreprise</h3>
-                    <ul className="space-y-3 text-lg">
-                        {company.map(({ title, href }) => (
-                            <li key={title}>
-                                <Link href={href} className="hover:underline">
-                                    {title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    {/* Colonne 3 : Contact + Réseaux */}
+                    <div className="space-y-6">
+                        <div>
+                            <h3 className="uppercase text-xl font-bold">Contact</h3>
+                            <div className="flex flex-col gap-y-3 text-base font-normal mt-3">
+                                <div>
+                                    Ligne d’assistance
+                                    <br />
+                                    <span className="text-[#BFC1BF]">0176898765</span>
+                                </div>
+                                <div>
+                                    Emplacement
+                                    <br />
+                                    <span className="text-[#BFC1BF]">COTE D'IVOIRE</span>
+                                </div>
+                                <div>
+                                    Email
+                                    <br />
+                                    <span className="text-[#BFC1BF]">info@covoitivoire.com</span>
+                                </div>
+                            </div>
+                        </div>
 
-                <div>
-                    <h3 className="text-2xl font-semibold mb-4">Légal</h3>
-                    <ul className="space-y-3 text-lg">
-                        {legal.map(({ title, href }) => (
-                            <li key={title}>
-                                <Link href={href} className="hover:underline">
-                                    {title}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                        <div>
+                            <h3 className="uppercase text-xl font-bold">Suivez-nous sur ...</h3>
+                            <div className="flex space-x-5 mt-3">
+                                <Instagram size={30} strokeWidth={3} absoluteStrokeWidth />
+                                <Linkedin size={30} strokeWidth={3} absoluteStrokeWidth />
+                                <Facebook strokeWidth={3} absoluteStrokeWidth />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div className="mt-16 border-t border-background/30 pt-6 text-center text-base text-background/60">
-                &copy; {new Date().getFullYear()} Covoitivoire. Tous droits réservés.
-            </div>
-        </footer>
+
     );
 };

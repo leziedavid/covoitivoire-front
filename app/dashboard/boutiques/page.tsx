@@ -9,7 +9,7 @@ import { Category} from "@/types/AllTypes";
 import { VehicleRequest } from "@/types/ApiRequest/VehicleRequest";
 import { Link2, Plus, ShoppingCart, StretchHorizontal, SwatchBook } from "lucide-react";
 import { DataTableSkeleton } from "@/components/table/data-table-skeleton";
-import { ProductRequest } from "@/types/ApiRequest/ProductRequest";
+import { ProductRequest, VariantType } from "@/types/ApiRequest/ProductRequest";
 import { ProductForm } from "@/components/form/ProductForm";
 import { Flame, Send,Users,Heart,Eye} from 'lucide-react';
 import { useOrderSocket } from '@/lib/socket/useOrderSocket';
@@ -23,7 +23,10 @@ import LineChart from "@/components/chart/LineChart";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-type ProductWithVariantIds = Product & { variantIds?: string[] };
+type ProductWithVariantIds = Product & {
+    variantType?: VariantType,
+    variantIds?: string[]
+};
 
 export default function Page() {
 
@@ -157,8 +160,8 @@ export default function Page() {
     }
 
     function openEditForm(product: Product) {
-        const { id, addedById, name, description, price, stock, sku, categoryId, serviceId, variantIds} = product as ProductWithVariantIds;
-        const productRequest: ProductRequest = {  id,addedById,name, description: description ?? undefined, price,stock,sku, categoryId, serviceId,variantIds: variantIds ?? [] };
+        const { id, addedById, name, description, price, stock,categoryId, serviceId,variantType, variantIds} = product as ProductWithVariantIds;
+        const productRequest: ProductRequest = {  id,addedById,name, description: description ?? undefined, price,stock, categoryId, serviceId, variantType: variantType as VariantType, variantIds: variantIds ?? [] };
         setFormInitialValues(productRequest);
         setIsFormOpen(true);
     }
@@ -236,8 +239,6 @@ export default function Page() {
                 </Button>
             </div>
 
-
-
             <div className="dark:bg-gray-800">
 
                 <div className="col-span-3 md:col-span-2 flex flex-col items-center md:items-start gap-4 pt-1 px-2">
@@ -257,7 +258,7 @@ export default function Page() {
                             </div>
                             <span className="font-semibold text-sm text-center"> Total Commandes</span>
                         </div>
-  
+
                         <div title="Users got help"
                             className="flex flex-col justify-center items-center gap-2 border-2 border-dashed border-gray-500/50 p-4 rounded-md h-32 dark:text-gray-200">
                             <div className="flex gap-2 items-center">
@@ -326,6 +327,7 @@ export default function Page() {
                     isOpen={isFormOpen}
                     categories={categories}
                     variants={[]}
+                    getAllProducts={getAllProduct}
                 />
             )}
 

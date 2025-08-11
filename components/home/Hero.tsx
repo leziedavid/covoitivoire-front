@@ -183,15 +183,13 @@ export function Hero() {
                         {/* Tab Package */}
                         <TabsContent value="package">
                             <div className="space-y-4">
-                                <GooglePlacesAutocompleteInput
-                                    value={packagePickup}
+                                <GooglePlacesAutocompleteInput value={packagePickup}
                                     onChange={setPackagePickup}
                                     onLocationSelect={(coords) => setPackagePickupCoords(coords)}
                                     placeholder="Lieu d’envoi du colis"
                                     className="bg-white text-black"
                                 />
-                                <GooglePlacesAutocompleteInput
-                                    value={packageDropoff}
+                                <GooglePlacesAutocompleteInput value={packageDropoff}
                                     onChange={setPackageDropoff}
                                     onLocationSelect={(coords) => setPackageDropoffCoords(coords)}
                                     placeholder="Lieu de réception"
@@ -227,21 +225,16 @@ export function Hero() {
                                             <div key={index} className="grid grid-cols-12 gap-2 items-end bg-white p-4 rounded-lg mb-2">
                                                 
                                                 <div className="col-span-5">
-                                                    <Input
-                                                        value={pkg.name}
-                                                        onChange={(e) => updatePackage(index, "name", e.target.value)}
+                                                    <Input value={pkg.name} onChange={(e) => updatePackage(index, "name", e.target.value)}
                                                         placeholder="Nom du colis"
                                                         className="text-black"
                                                     />
                                                 </div>
 
                                                 <div className="col-span-5">
-                                                    <Input
-                                                        value={pkg.description}
-                                                        onChange={(e) => updatePackage(index, "description", e.target.value)}
+                                                    <Input value={pkg.description}  onChange={(e) => updatePackage(index, "description", e.target.value)}
                                                         placeholder="Description"
-                                                        className="text-black"
-                                                    />
+                                                        className="text-black" />
                                                 </div>
 
                                                 <div className="col-span-2 flex gap-2 justify-end">

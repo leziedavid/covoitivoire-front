@@ -1,4 +1,4 @@
-import { FileManager, Role, ServiceType, UserStatus } from "../AllTypes";
+import { FileManager, Role, ServiceType, UserStatus, VariantType } from "../AllTypes";
 
 export interface ProduitsResponse {
     data: Product[];
@@ -17,7 +17,7 @@ export interface Product {
     categoryId: string;
     serviceId: string;
     addedById: string;
-
+    VariantType: VariantType;
     category: Category;
     addedBy: User;
     service: Service;

@@ -48,7 +48,6 @@ export enum PaymentMethodFrench {
     BANK_TRANSFER = "VIREMENT BANCAIRE",
 }
 
-
 export enum DeliveryMethod {
     HOME_DELIVERY = "HOME_DELIVERY",
     STORE_PICKUP = "STORE_PICKUP",
@@ -113,6 +112,16 @@ export enum DeliveryAssignmentStatus {
     ACCEPTED = "ACCEPTED",
     REJECTED = "REJECTED",
     COMPLETED = "COMPLETED",
+}
+
+
+export enum VariantType {
+    TAILLE,
+    COULEUR,
+    CAPACITE,
+    POIDS,
+    LONGUEUR,
+    LARGEUR,
 }
 
 // Models as TypeScript interfaces

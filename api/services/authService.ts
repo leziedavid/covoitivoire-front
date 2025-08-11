@@ -9,7 +9,7 @@ import { Service } from '@/types/ApiReponse/ServicesResponse'
 import { DriverInfo, VehicleWithDrivers } from '@/types/ApiReponse/Vehicle-with-drivers'
 import { ServiceSubscription } from '@/types/ApiReponse/ServiceSubscriptionResponse'
 import { User } from '@/types/ApiReponse/UsersResponse'
-import { Category, OrderStatus } from '@/types/AllTypes'
+import { Category, OrderStatus, Variant } from '@/types/AllTypes'
 import { Product } from '@/types/ApiReponse/ProduitsResponse'
 import { StatistiquesDesProduitsResponse } from '@/types/ApiReponse/StatistiquesDesProduitsResponse'
 import { StatistiquesCommandesResponse } from '@/types/ApiReponse/StatistiquesCommandesResponse'
@@ -593,21 +593,70 @@ export const getUserValidProducts = async (page: number = 1, limit: number = 10)
     }
 }
 
+// getVariantByVariantType
+export const getVariantByVariantType = async (variantType: string): Promise<BaseResponse<Variant>> => {
+    try {
+        const response = await fetch(`${getBaseUrl()}/variants/variantType/${variantType}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+            },
+        })
+        return await response.json()
+    } catch (error) {
+        console.error('Erreur lors de la récupération des produits :', error)
+        throw error
+    }
+}
+
+/** Récupère l'ID du service lié à la dernière souscription active d'un utilisateur pour un type de service donné */
+// getLatestActiveServiceIdByUserAndType
+export const getLatestActiveServiceIdByUserAndType = async (type: string): Promise<BaseResponse<any>> => {
+    try {
+        const response = await fetch(`${getBaseUrl()}/subscriptions/latest-active-service-id-by-user-and-type?type=${type}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+            },
+        })
+        return await response.json()
+    } catch (error) {
+        console.error('Erreur lors de la récupération de l’ID du service :', error)
+        throw error
+    }
+}
+
+// create a new product
+export const createProduct = async (formData: FormData): Promise<BaseResponse<Product>> => {
+    try {
+        const response = await fetch(`${getBaseUrl()}/products`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
+                // Pas besoin de 'Content-Type': multipart/form-data → géré automatiquement par FormData
+            },
+            body: formData,
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de la création du produit :", error);
+        throw error;
+    }
+};
+
 //Mettre à jour un produit
 export const updateProduct = async (id: string, formData: FormData): Promise<BaseResponse<Product>> => {
     try {
         const response = await fetch(`${getBaseUrl()}/products/${id}`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
             },
             body: formData,
         });
-
-        if (!response.ok) {
-            throw new Error(`Erreur ${response.status} : ${response.statusText}`);
-        }
 
         return await response.json();
     } catch (error) {
@@ -640,28 +689,6 @@ export const deleteProduct = async (id: string): Promise<BaseResponse<any>> => {
     }
 };
 
-// Créer un nouveau produit
-export const createProduct = async (formData: FormData): Promise<BaseResponse<Product>> => {
-    try {
-        const response = await fetch(`${getBaseUrl()}/products`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token') || ''}`,
-                // Pas besoin de 'Content-Type': multipart/form-data → géré automatiquement par FormData
-            },
-            body: formData,
-        });
-
-        if (!response.ok) {
-            throw new Error(`Erreur ${response.status} : ${response.statusText}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Erreur lors de la création du produit :", error);
-        throw error;
-    }
-};
 
 // 1. getUserProductStats()
 
